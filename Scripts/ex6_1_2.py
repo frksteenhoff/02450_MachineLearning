@@ -1,13 +1,14 @@
 # exercise 6.1.2
 
-from pylab import *
+from matplotlib.pyplot import figure, plot, xlabel, ylabel, legend, show, boxplot
 from scipy.io import loadmat
 from sklearn import cross_validation, tree
+import numpy as np
 
 # Load Matlab data file and extract variables of interest
 mat_data = loadmat('../Data/wine2.mat')
-X = np.matrix(mat_data['X'])
-y = np.matrix(mat_data['y'], dtype=int)
+X = mat_data['X']
+y = mat_data['y'].squeeze()
 attributeNames = [name[0] for name in mat_data['attributeNames'][0]]
 classNames = [name[0][0] for name in mat_data['classNames']]
 N, M = X.shape
@@ -29,8 +30,8 @@ for train_index, test_index in CV:
     print('Computing CV fold: {0}/{1}..'.format(k+1,K))
 
     # extract training and test set for current CV fold
-    X_train, y_train = X[train_index,:].A, y[train_index,:].A
-    X_test, y_test = X[test_index,:].A, y[test_index,:].A
+    X_train, y_train = X[train_index,:], y[train_index]
+    X_test, y_test = X[test_index,:], y[test_index]
 
     for i, t in enumerate(tc):
         # Fit decision tree classifier, Gini split criterion, different pruning levels
@@ -39,8 +40,8 @@ for train_index, test_index in CV:
         y_est_test = dtc.predict(X_test)
         y_est_train = dtc.predict(X_train)
         # Evaluate misclassification rate over train/test data (in this CV fold)
-        misclass_rate_test = sum(np.abs(np.mat(y_est_test).T - y_test)) / float(len(y_est_test))
-        misclass_rate_train = sum(np.abs(np.mat(y_est_train).T - y_train)) / float(len(y_est_train))
+        misclass_rate_test = sum(np.abs(y_est_test - y_test)) / float(len(y_est_test))
+        misclass_rate_train = sum(np.abs(y_est_train - y_train)) / float(len(y_est_train))
         Error_test[i,k], Error_train[i,k] = misclass_rate_test, misclass_rate_train
     k+=1
 

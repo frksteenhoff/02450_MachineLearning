@@ -1,16 +1,15 @@
 # exercise 6.2.1
-
-
-from pylab import *
+from matplotlib.pyplot import figure, plot, subplot, title, xlabel, ylabel, show, clim
 from scipy.io import loadmat
 import sklearn.linear_model as lm
 from sklearn import cross_validation
 from toolbox_02450 import feature_selector_lr, bmplot
+import numpy as np
 
 # Load data from matlab file
 mat_data = loadmat('../Data/body.mat')
-X = np.matrix(mat_data['X'])
-y = np.matrix(mat_data['y'])
+X = mat_data['X']
+y = mat_data['y'].squeeze()
 attributeNames = [name[0] for name in mat_data['attributeNames'][0]]
 N, M = X.shape
 
@@ -37,9 +36,9 @@ k=0
 for train_index, test_index in CV:
     
     # extract training and test set for current CV fold
-    X_train = X[train_index]
+    X_train = X[train_index,:]
     y_train = y[train_index]
-    X_test = X[test_index]
+    X_test = X[test_index,:]
     y_test = y[test_index]
     internal_cross_validation = 10
     
@@ -53,7 +52,10 @@ for train_index, test_index in CV:
     Error_test[k] = np.square(y_test-m.predict(X_test)).sum()/y_test.shape[0]
 
     # Compute squared error with feature subset selection
-    selected_features, features_record, loss_record = feature_selector_lr(X_train, y_train, internal_cross_validation)
+    #textout = 'verbose';
+    textout = '';
+    selected_features, features_record, loss_record = feature_selector_lr(X_train, y_train, internal_cross_validation,display=textout)
+    
     Features[selected_features,k]=1
     # .. alternatively you could use module sklearn.feature_selection
     m = lm.LinearRegression().fit(X_train[:,selected_features], y_train)
@@ -113,8 +115,8 @@ residual=y-y_est
 figure(k+1)
 title('Residual error vs. Attributes for features selected in cross-validation fold {0}'.format(f))
 for i in range(0,len(ff)):
-   subplot(2,ceil(len(ff)/2.0),i+1)
-   plot(X[:,ff[i]].A,residual.A,'.')
+   subplot(2,np.ceil(len(ff)/2.0),i+1)
+   plot(X[:,ff[i]],residual,'.')
    xlabel(attributeNames[ff[i]])
    ylabel('residual error')
 

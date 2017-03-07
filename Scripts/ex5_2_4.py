@@ -1,5 +1,5 @@
 # exercise 5.2.4
-from pylab import *
+from matplotlib.pylab import figure, subplot, plot, xlabel, ylabel, hist, show
 import sklearn.linear_model as lm
 
 # requires wine data from exercise 5.1.5
@@ -9,9 +9,8 @@ from ex5_1_5 import *
 alcohol_idx = attributeNames.index('Alcohol')
 y = X[:,alcohol_idx]
 
-X_cols = range(0,alcohol_idx) + range(alcohol_idx+1,len(attributeNames))
-X_rows = range(0,len(y))
-X = X[ix_(X_rows,X_cols)]
+X_cols = list(range(0,alcohol_idx)) + list(range(alcohol_idx+1,len(attributeNames)))
+X = X[:,X_cols]
 
 # Fit ordinary least squares regression model
 model = lm.LinearRegression()
@@ -24,7 +23,7 @@ residual = y_est-y
 # Display scatter plot
 figure()
 subplot(2,1,1)
-plot(y.A, y_est, '.')
+plot(y, y_est, '.')
 xlabel('Alcohol content (true)'); ylabel('Alcohol content (estimated)');
 subplot(2,1,2)
 hist(residual,40)

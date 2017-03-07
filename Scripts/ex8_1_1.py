@@ -1,14 +1,16 @@
 # exercise 8.1.1
 
-from pylab import *
+from matplotlib.pylab import (figure, semilogx, loglog, xlabel, ylabel, legend, 
+                           title, subplot, show)
+import numpy as np
 from scipy.io import loadmat
 import sklearn.linear_model as lm
 from sklearn import cross_validation
 from toolbox_02450 import rlr_validate
 
 mat_data = loadmat('../Data/body.mat')
-X = np.matrix(mat_data['X'])
-y = np.matrix(mat_data['y'])
+X = mat_data['X']
+y = mat_data['y']#.squeeze()
 attributeNames = [name[0] for name in mat_data['attributeNames'][0]]
 N, M = X.shape
 
@@ -48,24 +50,24 @@ for train_index, test_index in CV:
     
     opt_val_err, opt_lambda, mean_w_vs_lambda, train_err_vs_lambda, test_err_vs_lambda = rlr_validate(X_train, y_train, lambdas, internal_cross_validation)
 
-    Xty = X_train.T*y_train
-    XtX = X_train.T*X_train
+    Xty = X_train.T @ y_train
+    XtX = X_train.T @ X_train
     
     # Compute mean squared error without using the input data at all
     Error_train_nofeatures[k] = np.square(y_train-y_train.mean()).sum()/y_train.shape[0]
     Error_test_nofeatures[k] = np.square(y_test-y_test.mean()).sum()/y_test.shape[0]
 
     # Estimate weights for the optimal value of lambda, on entire training set
-    w_rlr[:,k] = linalg.lstsq(XtX+opt_lambda*np.eye(M),Xty)[0]
+    w_rlr[:,k] = np.linalg.lstsq(XtX+opt_lambda*np.eye(M),Xty)[0]
     # Compute mean squared error with regularization with optimal lambda
-    Error_train_rlr[k] = np.square(y_train-X_train*w_rlr[:,k]).sum()/y_train.shape[0]
-    Error_test_rlr[k] = np.square(y_test-X_test*w_rlr[:,k]).sum()/y_test.shape[0]
+    Error_train_rlr[k] = np.square(y_train-X_train @ w_rlr[:,k]).sum()/y_train.shape[0]
+    Error_test_rlr[k] = np.square(y_test-X_test @ w_rlr[:,k]).sum()/y_test.shape[0]
 
     # Estimate weights for unregularized linear regression, on entire training set
-    w_noreg[:,k] = linalg.lstsq(XtX,Xty)[0]
+    w_noreg[:,k] = np.linalg.lstsq(XtX,Xty)[0]
     # Compute mean squared error without regularization
-    Error_train[k] = np.square(y_train-X_train*w_noreg[:,k]).sum()/y_train.shape[0]
-    Error_test[k] = np.square(y_test-X_test*w_noreg[:,k]).sum()/y_test.shape[0]
+    Error_train[k] = np.square(y_train-X_train @ w_noreg[:,k]).sum()/y_train.shape[0]
+    Error_test[k] = np.square(y_test-X_test @ w_noreg[:,k]).sum()/y_test.shape[0]
     # OR ALTERNATIVELY: you can use sklearn.linear_model module for linear regression:
     #m = lm.LinearRegression().fit(X_train, y_train)
     #Error_train[k] = np.square(y_train-m.predict(X_train)).sum()/y_train.shape[0]

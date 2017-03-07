@@ -1,14 +1,17 @@
 # exercise 8.2.2
 
-from pylab import *
+from matplotlib.pyplot import (figure, plot, subplot, title, xlabel, ylabel, 
+                               hold, contour, contourf, cm, colorbar, show,
+                               legend)
+import numpy as np
 from scipy.io import loadmat
 import neurolab as nl
 from sklearn import cross_validation
 
 # read XOR DATA from matlab datafile
 mat_data = loadmat('../Data/xor.mat')
-X = np.matrix(mat_data['X'])
-y = np.matrix(mat_data['y'])
+X = mat_data['X']
+y = mat_data['y']
 
 
 attributeNames = [name[0] for name in mat_data['attributeNames'].squeeze()]
@@ -61,35 +64,35 @@ for train_index, test_index in CV:
     
 
 # Print the average classification error rate
-print('Error rate: {0}%'.format(100*mean(errors)))
+print('Error rate: {0}%'.format(100*np.mean(errors)))
 
 
 # Display the decision boundary for the several crossvalidation folds.
 # (create grid of points, compute network output for each point, color-code and plot).
 grid_range = [-1, 2, -1, 2]; delta = 0.05; levels = 100
-a = arange(grid_range[0],grid_range[1],delta)
-b = arange(grid_range[2],grid_range[3],delta)
-A, B = meshgrid(a, b)
+a = np.arange(grid_range[0],grid_range[1],delta)
+b = np.arange(grid_range[2],grid_range[3],delta)
+A, B = np.meshgrid(a, b)
 values = np.zeros(A.shape)
 
 figure(1,figsize=(18,9)); hold(True)
 for k in range(4):
     subplot(2,2,k+1)
-    cmask = (y==0).A.ravel(); plot(X[cmask,0].A, X[cmask,1].A,'.r')
-    cmask = (y==1).A.ravel(); plot(X[cmask,0].A, X[cmask,1].A,'.b')
+    cmask = (y==0).squeeze(); plot(X[cmask,0], X[cmask,1],'.r')
+    cmask = (y==1).squeeze(); plot(X[cmask,0], X[cmask,1],'.b')
     title('Model prediction and decision boundary (kfold={0})'.format(k+1))
     xlabel('Feature 1'); ylabel('Feature 2');
     for i in range(len(a)):
         for j in range(len(b)):
             values[i,j] = bestnet[k].sim( np.mat([a[i],b[j]]) )[0,0]
     contour(A, B, values, levels=[.5], colors=['k'], linestyles='dashed')
-    contourf(A, B, values, levels=linspace(values.min(),values.max(),levels), cmap=cm.RdBu)
+    contourf(A, B, values, levels=np.linspace(values.min(),values.max(),levels), cmap=cm.RdBu)
     if k==0: colorbar(); legend(['Class A (y=0)', 'Class B (y=1)'])
 
 
 # Display exemplary networks learning curve (best network of each fold)
 figure(2); hold(True)
-bn_id = argmax(error_hist[-1,:])
+bn_id = np.argmax(error_hist[-1,:])
 error_hist[error_hist==0] = learning_goal
 for bn_id in range(K):
     plot(error_hist[:,bn_id]); xlabel('epoch'); ylabel('train error (mse)'); title('Learning curve (best for each CV fold)')

@@ -5,9 +5,6 @@ from sklearn import tree
 # requires data from exercise 5.1.1
 from ex5_1_1 import *
 
-X = X.A
-y = y.A.ravel()
-
 # Fit regression tree classifier, Gini split criterion, no pruning
 dtc = tree.DecisionTreeClassifier(criterion='gini', min_samples_split=1)
 dtc = dtc.fit(X,y)

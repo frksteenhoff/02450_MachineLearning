@@ -1,17 +1,17 @@
 # exercise 8.2.5
 
-from pylab import *
+from matplotlib.pyplot import (figure,plot, subplot, bar, title, show)
+import numpy as np
 from scipy.io import loadmat
 import neurolab as nl
 from sklearn import cross_validation
-import scipy.linalg as linalg
 from scipy import stats
 
 # Load Matlab data file and extract variables of interest
 mat_data = loadmat('..\\Data\\wine2.mat')
 attributeNames = [name[0] for name in mat_data['attributeNames'][0]]
-X = np.matrix(mat_data['X'])
-y = np.matrix(mat_data['y'])
+X = mat_data['X']
+y = mat_data['y']
 #Downsample: X = X[1:20,:] y = y[1:20,:]
 
 N, M = X.shape
@@ -67,13 +67,14 @@ for train_index, test_index in CV:
     
 
 # Print the average classification error rate
-print('Error rate: {0}%'.format(100*mean(errors)))
+print('Error rate: {0}%'.format(100*np.mean(errors)))
 
 
 figure();
 subplot(2,1,1); bar(range(0,K),errors); title('CV errors');
 subplot(2,1,2); plot(error_hist); title('Training error as function of BP iterations');
 figure();
-subplot(2,1,1); plot(y_est); plot(y_test.A); title('Last CV-fold: est_y vs. test_y'); 
-subplot(2,1,2); plot((y_est-y_test).A); title('Last CV-fold: prediction error (est_y-test_y)'); show()
+subplot(2,1,1); plot(y_est); plot(y_test); title('Last CV-fold: est_y vs. test_y'); 
+subplot(2,1,2); plot((y_est-y_test)); title('Last CV-fold: prediction error (est_y-test_y)'); 
+
 show()

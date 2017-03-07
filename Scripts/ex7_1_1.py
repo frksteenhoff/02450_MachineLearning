@@ -1,6 +1,7 @@
 # exercise 7.1.1
 
-from pylab import *
+from matplotlib.pyplot import (figure, hold, plot, title, xlabel, ylabel, 
+                               colorbar, imshow, xticks, yticks, show)
 from scipy.io import loadmat
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.metrics import confusion_matrix
@@ -8,12 +9,12 @@ from sklearn.metrics import confusion_matrix
 
 # Load Matlab data file and extract variables of interest
 mat_data = loadmat('../Data/synth1.mat')
-X = np.matrix(mat_data['X'])
-X_train = np.matrix(mat_data['X_train'])
-X_test = np.matrix(mat_data['X_test'])
-y = np.matrix(mat_data['y'])
-y_train = np.matrix(mat_data['y_train'])
-y_test = np.matrix(mat_data['y_test'])
+X = mat_data['X']
+X_train = mat_data['X_train']
+X_test = mat_data['X_test']
+y = mat_data['y'].squeeze()
+y_train = mat_data['y_train'].squeeze()
+y_test = mat_data['y_test'].squeeze()
 attributeNames = [name[0] for name in mat_data['attributeNames'].squeeze()]
 classNames = [name[0][0] for name in mat_data['classNames']]
 N, M = X.shape
@@ -25,8 +26,8 @@ figure(1);
 hold(True);
 styles = ['.b', '.r', '.g', '.y']
 for c in range(C):
-    class_mask = (y_train==c).A.ravel()
-    plot(X_train[class_mask,0].A, X_train[class_mask,1].A, styles[c])
+    class_mask = (y_train==c)
+    plot(X_train[class_mask,0], X_train[class_mask,1], styles[c])
 
 
 # K-nearest neighbors
@@ -46,12 +47,12 @@ y_est = knclassifier.predict(X_test);
 styles = ['ob', 'or', 'og', 'oy']
 for c in range(C):
     class_mask = (y_est==c)
-    plot(X_test[class_mask,0].A, X_test[class_mask,1].A, styles[c], markersize=10)
-    plot(X_test[class_mask,0].A, X_test[class_mask,1].A, 'kx', markersize=8)
+    plot(X_test[class_mask,0], X_test[class_mask,1], styles[c], markersize=10)
+    plot(X_test[class_mask,0], X_test[class_mask,1], 'kx', markersize=8)
 title('Synthetic data classification - KNN');
 
 # Compute and plot confusion matrix
-cm = confusion_matrix(y_test.A.ravel(), y_est);
+cm = confusion_matrix(y_test, y_est);
 accuracy = 100*cm.diagonal().sum()/cm.sum(); error_rate = 100-accuracy;
 figure(2);
 imshow(cm, cmap='binary', interpolation='None');

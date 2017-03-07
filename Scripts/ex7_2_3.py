@@ -11,8 +11,8 @@ gender = [0]*len(mnames) + [1]*len(fnames)
 fmale.close(); ffemale.close();
 
 # Extract X, y and the rest of variables. Include only names of >4 characters.
-X = np.mat(np.zeros((len(names),4)))
-y = np.mat(np.zeros((len(names),1)))
+X = np.zeros((len(names),4))
+y = np.zeros((len(names),1))
 n=0
 for i in range(0,len(names)):
     name = names[i].strip().lower()
