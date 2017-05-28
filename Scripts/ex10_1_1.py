@@ -1,13 +1,13 @@
 # exercise 10.1.1
-from pylab import *
+from matplotlib.pyplot import figure, show
 from scipy.io import loadmat
 from toolbox_02450 import clusterplot
 from sklearn.cluster import k_means
 
 # Load Matlab data file and extract variables of interest
 mat_data = loadmat('../Data/synth1.mat')
-X = np.matrix(mat_data['X'])
-y = np.matrix(mat_data['y'])
+X = mat_data['X']
+y = mat_data['y'].squeeze()
 attributeNames = [name[0] for name in mat_data['attributeNames'].squeeze()]
 classNames = [name[0][0] for name in mat_data['classNames']]
 N, M = X.shape

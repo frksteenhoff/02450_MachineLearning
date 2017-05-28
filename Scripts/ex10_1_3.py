@@ -1,5 +1,6 @@
 # exercise 10.1.3
-from pylab import *
+from matplotlib.pyplot import figure, title, plot, ylim, legend, show
+import numpy as np
 from scipy.io import loadmat
 from toolbox_02450 import clusterval
 from sklearn.cluster import k_means
@@ -7,8 +8,8 @@ from sklearn.cluster import k_means
 
 # Load Matlab data file and extract variables of interest
 mat_data = loadmat('../Data/synth1.mat')
-X = np.matrix(mat_data['X'])
-y = np.matrix(mat_data['y'])
+X = mat_data['X']
+y = mat_data['y'].squeeze()
 attributeNames = [name[0] for name in mat_data['attributeNames'].squeeze()]
 classNames = [name[0][0] for name in mat_data['classNames']]
 N, M = X.shape
@@ -19,9 +20,9 @@ C = len(classNames)
 K = 10
 
 # Allocate variables:
-Rand = np.zeros((K,1))
-Jaccard = np.zeros((K,1))
-NMI = np.zeros((K,1))
+Rand = np.zeros((K,))
+Jaccard = np.zeros((K,))
+NMI = np.zeros((K,))
 
 for k in range(K):
     # run K-means clustering:
@@ -34,7 +35,6 @@ for k in range(K):
 
 figure(1)
 title('Cluster validity')
-hold(True)
 plot(np.arange(K)+1, Rand)
 plot(np.arange(K)+1, Jaccard)
 plot(np.arange(K)+1, NMI)

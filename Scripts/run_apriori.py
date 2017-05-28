@@ -1,10 +1,10 @@
 import numpy as np
-from subprocess import call
+from subprocess import run
 import re
 import os
 
 
-filename = '..\Data\courses.txt'
+filename = '../Data/courses.txt'
 minSup = 80
 minConf = 100
 maxRule = 4
@@ -12,14 +12,23 @@ maxRule = 4
 
 # Run Apriori Algorithm
 print('Mining for frequent itemsets by the Apriori algorithm')
-status1 = call('../Tools/apriori.exe -f"," -s{0} -v"[Sup. %S]" {1} apriori_temp1.txt'.format(minSup, filename))
-if status1!=0:
+if os.uname().sysname.lower() == 'linux':
+    status1 = run('../Tools/apriori -f -s{0} -v"[Sup. %S]" {1} apriori_temp1.txt'.format(minSup, filename),shell=True)
+else:
+    status1 = run('../Tools/apriori.exe -f -s{0} -v"[Sup. %S]" {1} apriori_temp1.txt'.format(minSup, filename),shell=True)
+
+if status1.returncode!=0:
     print('An error occured while calling apriori, a likely cause is that minSup was set to high such that no frequent itemsets were generated or spaces are included in the path to the apriori files.')
     exit()
 if minConf>0:
     print('Mining for associations by the Apriori algorithm')
-    status2 = call('../Tools/apriori.exe -tr -f"," -n{0} -c{1} -s{2} -v"[Conf. %C,Sup. %S]" {3} apriori_temp2.txt'.format(maxRule, minConf, minSup, filename))
-    if status2!=0:
+    
+    if os.uname().sysname.lower() == 'linux':
+        status2 = run('../Tools/apriori -tr -f"," -n{0} -c{1} -s{2} -v"[Conf. %C,Sup. %S]" {3} apriori_temp2.txt'.format(maxRule, minConf, minSup, filename),shell=True)
+    else:
+        status2 = run('../Tools/apriori.exe -tr -f"," -n{0} -c{1} -s{2} -v"[Conf. %C,Sup. %S]" {3} apriori_temp2.txt'.format(maxRule, minConf, minSup, filename),shell=True)
+    
+    if status2.returncode!=0:
         print('An error occured while calling apriori')
         exit()
 print('Apriori analysis done, extracting results')

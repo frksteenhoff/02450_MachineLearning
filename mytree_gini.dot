@@ -1,0 +1,33 @@
+digraph Tree {
+node [shape=box, style="filled, rounded", color="black", fontname=helvetica] ;
+edge [fontname=helvetica] ;
+0 [label="age <= 0.5265\ngini = 0.4528\nsamples = 462\nvalue = [302, 160]", fillcolor="#e5813978"] ;
+1 [label="age <= -0.844\ngini = 0.344\nsamples = 290\nvalue = [226, 64]", fillcolor="#e58139b7"] ;
+0 -> 1 [labeldistance=2.5, labelangle=45, headlabel="True"] ;
+2 [label="tobacco <= -0.6813\ngini = 0.1372\nsamples = 108\nvalue = [100, 8]", fillcolor="#e58139eb"] ;
+1 -> 2 ;
+3 [label="gini = 0.0247\nsamples = 80\nvalue = [79, 1]", fillcolor="#e58139fc"] ;
+2 -> 3 ;
+4 [label="gini = 0.375\nsamples = 28\nvalue = [21, 7]", fillcolor="#e58139aa"] ;
+2 -> 4 ;
+5 [label="typea <= 1.5699\ngini = 0.426\nsamples = 182\nvalue = [126, 56]", fillcolor="#e581398e"] ;
+1 -> 5 ;
+6 [label="gini = 0.3947\nsamples = 170\nvalue = [124, 46]", fillcolor="#e58139a0"] ;
+5 -> 6 ;
+7 [label="gini = 0.2778\nsamples = 12\nvalue = [2, 10]", fillcolor="#399de5cc"] ;
+5 -> 7 ;
+8 [label="famhist <= -0.1713\ngini = 0.4932\nsamples = 172\nvalue = [76, 96]", fillcolor="#399de535"] ;
+0 -> 8 [labeldistance=2.5, labelangle=-45, headlabel="False"] ;
+9 [label="ldl <= 0.1207\ngini = 0.42\nsamples = 90\nvalue = [27, 63]", fillcolor="#399de592"] ;
+8 -> 9 ;
+10 [label="gini = 0.497\nsamples = 39\nvalue = [18, 21]", fillcolor="#399de524"] ;
+9 -> 10 ;
+11 [label="gini = 0.2907\nsamples = 51\nvalue = [9, 42]", fillcolor="#399de5c8"] ;
+9 -> 11 ;
+12 [label="tobacco <= 0.8651\ngini = 0.481\nsamples = 82\nvalue = [49, 33]", fillcolor="#e5813953"] ;
+8 -> 12 ;
+13 [label="gini = 0.3995\nsamples = 58\nvalue = [42, 16]", fillcolor="#e581399e"] ;
+12 -> 13 ;
+14 [label="gini = 0.4132\nsamples = 24\nvalue = [7, 17]", fillcolor="#399de596"] ;
+12 -> 14 ;
+}

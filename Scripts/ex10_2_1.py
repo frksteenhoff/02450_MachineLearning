@@ -1,13 +1,13 @@
 # exercise 10.2.1
-from pylab import *
+from matplotlib.pyplot import figure, show
 from scipy.io import loadmat
 from toolbox_02450 import clusterplot
 from scipy.cluster.hierarchy import linkage, fcluster, dendrogram
 
 # Load Matlab data file and extract variables of interest
 mat_data = loadmat('../Data/synth1.mat')
-X = np.matrix(mat_data['X'])
-y = np.matrix(mat_data['y'])
+X = mat_data['X']
+y = mat_data['y'].squeeze()
 attributeNames = [name[0] for name in mat_data['attributeNames'].squeeze()]
 classNames = [name[0][0] for name in mat_data['classNames']]
 N, M = X.shape
@@ -28,7 +28,7 @@ clusterplot(X, cls.reshape(cls.shape[0],1), y=y)
 
 # Display dendrogram
 max_display_levels=6
-figure(2)
+figure(2,figsize=(10,4))
 dendrogram(Z, truncate_mode='level', p=max_display_levels)
 
 show()

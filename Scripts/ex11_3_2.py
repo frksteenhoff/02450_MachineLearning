@@ -1,6 +1,7 @@
 # exercise 11.3.2
 
-from pylab import *
+import numpy as np
+from matplotlib.pyplot import figure, bar, title, plot, show
 from toolbox_02450 import gausKernelDensity
 
 # Draw samples from mixture of gaussians (as in exercise 11.1.1)

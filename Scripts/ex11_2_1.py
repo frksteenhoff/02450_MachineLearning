@@ -1,5 +1,6 @@
 # exercise 11_2_1
-from pylab import *
+import numpy as np
+from matplotlib.pyplot import figure, hist, show
 
 # Number of data objects
 N = 1000

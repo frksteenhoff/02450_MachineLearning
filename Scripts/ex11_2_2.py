@@ -1,5 +1,6 @@
 # exercise 11.2.2
-from pylab import *
+import numpy as np
+from matplotlib.pyplot import figure, subplot, hist, title, show, plot
 from scipy.stats.kde import gaussian_kde
 
 # Draw samples from mixture of gaussians (as in exercise 11.1.1)
@@ -13,17 +14,17 @@ for c_id, c_size in enumerate(c_sizes):
 
 
 # x-values to evaluate the KDE
-xe = linspace(-10, 10, 100)
+xe = np.linspace(-10, 10, 100)
 
 # Compute kernel density estimate
 kde = gaussian_kde(X.ravel())
 
 # Plot kernel density estimate
-figure()
+figure(figsize=(6,7))
 subplot(2,1,1)
 hist(X,x)
 title('Data histogram')
 subplot(2,1,2)
 plot(xe, kde.evaluate(xe))
 title('Kernel density estimate')
-show()
+    show()

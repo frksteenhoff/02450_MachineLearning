@@ -1,5 +1,6 @@
 # exercise 11.3.1
-from pylab import *
+import numpy as np
+from matplotlib.pyplot import figure, bar, title, show
 from scipy.stats.kde import gaussian_kde
 
 

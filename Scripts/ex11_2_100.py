@@ -1,6 +1,7 @@
 # exercise 11.2.100
-from pylab import *
-from sklearn.mixture import GMM
+import numpy as np
+from matplotlib.pyplot import figure, subplot, plot, hist, title, show
+from sklearn.mixture import GaussianMixture
 
 # Draw samples from mixture of gaussians (as in exercise 11.1.1)
 N = 1000; M = 1
@@ -13,15 +14,15 @@ for c_id, c_size in enumerate(c_sizes):
 
 
 # x-values to evaluate the KDE
-xe = linspace(-10, 10, 100)
+xe = np.linspace(-10, 10, 100).reshape(-1,1)
 
 # Fit Gaussian Mixture Model to the data
 K=3
-gmm = GMM(n_components=K).fit(X)
-gmm_estimated_density = np.exp(gmm.score_samples(xe)[0])
+gmm = GaussianMixture(n_components=K).fit(X)
+gmm_estimated_density = np.exp(gmm.score_samples(xe))
 
 # Plot kernel density estimate
-figure()
+figure(figsize=(6,7))
 subplot(2,1,1)
 hist(X,x)
 title('Data histogram')

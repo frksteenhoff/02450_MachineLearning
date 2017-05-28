@@ -1,5 +1,7 @@
 # exercise 11.4.1
-from pylab import *
+import numpy as np
+from matplotlib.pyplot import (figure, imshow, bar, title, xticks, yticks, cm,
+                               subplot, show)
 from scipy.io import loadmat
 from toolbox_02450 import gausKernelDensity
 from sklearn.neighbors import NearestNeighbors
@@ -24,6 +26,7 @@ widths = X.var(axis=0).max() * (2.0**np.arange(-10,3))
 logP = np.zeros(np.size(widths))
 for i,w in enumerate(widths):
    density, log_density = gausKernelDensity(X,w)
+   print(i)
    logP[i] = log_density.sum()
 val = logP.max()
 ind = logP.argmax()

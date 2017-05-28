@@ -1,5 +1,6 @@
 # exercise 11.2.3
-from pylab import *
+import numpy as np
+from matplotlib.pyplot import figure, subplot, plot, hist, title, show
 from sklearn.neighbors import NearestNeighbors
 
 
@@ -17,7 +18,7 @@ for c_id, c_size in enumerate(c_sizes):
 K = 200
 
 # x-values to evaluate the KNN
-xe = linspace(-10, 10, 100)
+xe = np.linspace(-10, 10, 100)
 
 # Find the k nearest neighbors
 knn = NearestNeighbors(n_neighbors=K).fit(X)
@@ -34,7 +35,7 @@ knn_avg_rel_density = knn_density/(knn_densityX[i[:,1:]].sum(axis=1)/K)
 
 
 # Plot KNN density
-figure()
+figure(figsize=(6,7))
 subplot(2,1,1)
 hist(X,x)
 title('Data histogram')
@@ -42,7 +43,7 @@ subplot(2,1,2)
 plot(xe, knn_density)
 title('KNN density')
 # Plot KNN average relative density
-figure()
+figure(figsize=(6,7))
 subplot(2,1,1)
 hist(X,x)
 title('Data histogram')
