@@ -6,6 +6,6 @@ In order to run the code you need:
 
 ## Brief overview of content
 Tags: Machine learning, supervised learning, 
-Libraries: `sklearn, numpy, scipy, graphviz, io, re, pandas, matplotlib .. 
+Libraries: `sklearn, numpy, scipy, graphviz, io, re, pandas, matplotlib ..`
 
 Areas: Principal Component Analysis, Classification, Summary Statistics, Cross-validation, One-out-of-K coding, Probability, K Nearest Neigbors, Decision Trees, Attributes, Performance Evaluation, Visualization
